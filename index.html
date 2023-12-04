@@ -43,7 +43,13 @@
         /* Reduce width of Quantity column */
         #productTable th:nth-child(3),
         #productTable td:nth-child(3) {
-            max-width: 50px;
+            max-width: 80px; /* Adjusted width */
+        }
+
+        /* Center the Submit button */
+        .btn-submit {
+            display: block;
+            margin: 20px auto;
         }
     </style>
     <title>Product Selection</title>
@@ -82,7 +88,7 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Unit Price</th>
-                                <th>Qty</th> 
+                                <th>Qty</th>
                                 <th>Sub-Total</th>
                                 <th>Action</th>
                             </tr>
@@ -97,7 +103,7 @@
                         </tfoot>
                     </table>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -149,7 +155,7 @@
                     tableBody.innerHTML += `<tr>
                         <td>${productName}</td>
                         <td>SAR ${productPrice}</td>
-                        <td><input type="number" name="quantity" min="1" value="1" "></td>
+                        <td><input type="number" name="quantity" min="1" value="1" class="form-control"></td>
                         <td class="subtotal">SAR ${productPrice}</td>
                         <td><button class="remove-button">Remove</button></td>
                     </tr>`;
