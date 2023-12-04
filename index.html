@@ -38,6 +38,7 @@
         .form-control {
             width: 50%;
             margin: 0 auto;
+            font-size: 14px; /* Adjusted font size */
         }
 
         /* Reduce width of Quantity column */
@@ -70,6 +71,17 @@
             #productTable th {
                 white-space: nowrap;
                 font-size: 12px; /* Adjusted font size */
+            }
+
+            /* Adjust input size under Qty for mobile */
+            #productTable td:nth-child(3) input {
+                width: 60px;
+            }
+
+            /* Adjust Remove button size for mobile */
+            #productTable td:nth-child(5) .remove-button {
+                padding: 3px 6px;
+                font-size: 12px;
             }
         }
     </style>
@@ -151,7 +163,6 @@
                 table.hidden = rows.length === 0;
                 if (rows.length === 0) return;
                 const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(3)).reduce((a, b) => a + b)
-                //grandTotal.textContent = `SAR ${total.toFixed(2)}`;
                 grandTotal.textContent = `SAR ${total}`;
             };
 
@@ -203,7 +214,6 @@
             });
 
             productInput.addEventListener('change', (e) => {
-                console.log('adding')
                 addProductRow();
                 updateGrandTotal();
             });
