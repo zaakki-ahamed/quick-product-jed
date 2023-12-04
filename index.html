@@ -29,6 +29,22 @@
         .grand-total-row {
             background-color: #f2f2f2;
         }
+
+        /* Center labels and shorten input boxes */
+        .form-group {
+            text-align: center;
+        }
+
+        .form-control {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        /* Reduce width of Quantity column */
+        #productTable th:nth-child(3),
+        #productTable td:nth-child(3) {
+            max-width: 50px;
+        }
     </style>
     <title>Product Selection</title>
 </head>
@@ -66,7 +82,7 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Unit Price</th>
-                                <th>Quantity</th>
+                                <th>Qty</th> 
                                 <th>Sub-Total</th>
                                 <th>Action</th>
                             </tr>
@@ -100,7 +116,7 @@
             const productDataList = document.getElementById("products");
             const productInput = document.getElementById("product");
             const grandTotal = document.getElementById("grandTotalValue");
-    
+
             const updateGrandTotal = () => {
                 const rows = tableBody.querySelectorAll('tr');
                 table.hidden = rows.length === 0;
@@ -108,7 +124,7 @@
                 const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(3)).reduce((a, b) => a + b)
                 grandTotal.textContent = `SAR ${total.toFixed(2)}`;
             };
-    
+
             const updateSubtotal = (input) => {
                 const row = input.closest('tr');
                 const productName = row.querySelector('td:first-child').textContent;
@@ -122,7 +138,7 @@
                     updateGrandTotal();
                 }
             };
-    
+
             const addProductRow = () => {
                 table.hidden = false;
                 var productName = productInput.value;
@@ -140,7 +156,7 @@
                     productInput.value = ""; // Clear the product input after adding a row
                 }
             };
-    
+
             tableBody.addEventListener('input', (e) => {
                 const tgt = e.target;
                 if (tgt.matches("input[name=quantity]")) {
@@ -148,22 +164,22 @@
                     updateGrandTotal();
                 }
             });
-    
+
             tableBody.addEventListener('click', (e) => {
                 const tgt = e.target.closest('button.remove-button');
                 if (!tgt) return;
                 tgt.closest('tr').remove();
                 updateGrandTotal();
             });
-    
+
             productInput.addEventListener('change', (e) => {
                 console.log('adding')
                 addProductRow();
                 updateGrandTotal();
             });
-    
+
         });
     </script>
-    
+
 </body>
 </html>
