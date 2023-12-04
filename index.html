@@ -44,6 +44,7 @@
         #productTable th:nth-child(3),
         #productTable td:nth-child(3) {
             max-width: 80px; /* Adjusted width */
+            text-align: center;
         }
 
         /* Center the Qty column heading */
@@ -68,6 +69,7 @@
             #productTable td,
             #productTable th {
                 white-space: nowrap;
+                font-size: 12px; /* Adjusted font size */
             }
         }
     </style>
@@ -149,7 +151,8 @@
                 table.hidden = rows.length === 0;
                 if (rows.length === 0) return;
                 const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(3)).reduce((a, b) => a + b)
-                grandTotal.textContent = `SAR ${total.toFixed(2)}`;
+                //grandTotal.textContent = `SAR ${total.toFixed(2)}`;
+                grandTotal.textContent = `SAR ${total}`;
             };
 
             const updateSubtotal = (input) => {
