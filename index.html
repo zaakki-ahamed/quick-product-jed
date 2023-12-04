@@ -76,6 +76,7 @@
             /* Adjust input size under Qty for mobile */
             #productTable td:nth-child(3) input {
                 width: 60px;
+                font-size: 12px; /* Adjusted font size */
             }
 
             /* Adjust Remove button size for mobile */
@@ -83,6 +84,40 @@
                 padding: 3px 6px;
                 font-size: 12px;
             }
+        }
+
+        /* Fade-out effect for alerts */
+        .fade-out {
+            animation: fadeOut ease 5s;
+            -webkit-animation: fadeOut ease 5s;
+            -moz-animation: fadeOut ease 5s;
+            -o-animation: fadeOut ease 5s;
+            -ms-animation: fadeOut ease 5s;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @-moz-keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @-webkit-keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @-o-keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @-ms-keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
     <title>Product Selection</title>
@@ -164,7 +199,7 @@
                 table.hidden = rows.length === 0;
                 if (rows.length === 0) return;
                 const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(3)).reduce((a, b) => a + b)
-                grandTotal.textContent = `SAR ${total}`;
+                grandTotal.textContent = `SAR ${total.toFixed(2)}`;
             };
 
             const updateSubtotal = (input) => {
@@ -247,7 +282,11 @@
 
         function showAlert(message, type) {
             const alertContainer = document.getElementById("alertContainer");
-            alertContainer.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+            alertContainer.innerHTML = `<div class="alert alert-${type} fade-out" role="alert">${message}</div>`;
+            // Remove the alert after 5 seconds
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
         }
     </script>
 </body>
