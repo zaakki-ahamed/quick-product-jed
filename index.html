@@ -92,7 +92,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form action="/action_page.php" method="get">
+                <form action="#" method="get" id="orderForm">
                     <div class="form-group">
                         <label for="hotel">Hotel name:</label>
                         <input list="hotels" name="hotel" id="hotel" class="form-control">
@@ -138,8 +138,9 @@
                         </table>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                    <button type="button" class="btn btn-primary btn-submit" onclick="submitOrder()">Submit</button>
                 </form>
+                <div id="alertContainer"></div>
             </div>
         </div>
     </div>
@@ -184,6 +185,12 @@
                 table.hidden = false;
                 var productName = productInput.value;
                 if (productName.trim() === "") return;
+                // Check if the product is already in the table
+                const existingProduct = [...tableBody.querySelectorAll('tr td:first-child')].find(cell => cell.textContent === productName);
+                if (existingProduct) {
+                    alert("Product already added.");
+                    return;
+                }
                 var selectedOption = [...productDataList.options].find(option => option.value === productName);
                 if (selectedOption) {
                     var productPrice = selectedOption.getAttribute("data-price");
@@ -219,7 +226,29 @@
             });
 
         });
-    </script>
 
+        function submitOrder() {
+            const hotelName = document.getElementById("hotel").value;
+            const productsSelected = document.querySelectorAll("#productTable tbody tr");
+            const alertContainer = document.getElementById("alertContainer");
+
+            if (!hotelName) {
+                showAlert("Please enter a hotel name.", "danger");
+                return;
+            }
+
+            if (productsSelected.length === 0) {
+                showAlert("Please select at least one product.", "danger");
+                return;
+            }
+
+            showAlert("Thank You! Your order has been submitted.", "success");
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById("alertContainer");
+            alertContainer.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+        }
+    </script>
 </body>
 </html>
