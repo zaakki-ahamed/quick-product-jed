@@ -93,76 +93,77 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const table = document.getElementById("productTable")
             table.hidden = true;
             const tableBody = document.querySelector("#productTable tbody");
             const productDataList = document.getElementById("products");
             const productInput = document.getElementById("product");
             const grandTotal = document.getElementById("grandTotalValue");
-
+    
             const updateGrandTotal = () => {
                 const rows = tableBody.querySelectorAll('tr');
                 table.hidden = rows.length === 0;
                 if (rows.length === 0) return;
-                const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(1)).reduce((a, b) => a + b)
-                grandTotal.textContent = `${total.toFixed(2)}`;
+                const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(3)).reduce((a, b) => a + b)
+                grandTotal.textContent = `SAR${total.toFixed(2)}`;
             };
-
+    
             const updateSubtotal = (input) => {
-            const row = input.closest('tr');
-            const productName = row.querySelector('td:first-child').textContent;
-            const selectedOption = [...productDataList.options].find(option => option.value === productName);
-            if (selectedOption) {
-                const unitPrice = +selectedOption.getAttribute("data-price");
-                const quantity = parseInt(input.value);
-                const subtotalCell = row.querySelector('.subtotal');
-                const subtotal = quantity * unitPrice;
-                subtotalCell.textContent = `$${subtotal}`;
-                updateGrandTotal();
-            }
-        };
-
+                const row = input.closest('tr');
+                const productName = row.querySelector('td:first-child').textContent;
+                const selectedOption = [...productDataList.options].find(option => option.value === productName);
+                if (selectedOption) {
+                    const unitPrice = +selectedOption.getAttribute("data-price");
+                    const quantity = parseInt(input.value);
+                    const subtotalCell = row.querySelector('.subtotal');
+                    const subtotal = quantity * unitPrice;
+                    subtotalCell.textContent = `SAR${subtotal}`;
+                    updateGrandTotal();
+                }
+            };
+    
             const addProductRow = () => {
                 table.hidden = false;
                 var productName = productInput.value;
                 if (productName.trim() === "") return;
                 var selectedOption = [...productDataList.options].find(option => option.value === productName);
                 if (selectedOption) {
-                var productPrice = selectedOption.getAttribute("data-price");
-                tableBody.innerHTML += `<tr>
-                    <td>${productName}</td>
-                    <td>$${productPrice}</td>
-                    <td><input type="number" name="quantity" min="1" value="1" "></td>
-                    <td class="subtotal">$${productPrice}</td>
-                    <td><button class="remove-button">Remove</button></td>
-                </tr>`;
-                productInput.value = ""; // Clear the product input after adding a row
+                    var productPrice = selectedOption.getAttribute("data-price");
+                    tableBody.innerHTML += `<tr>
+                        <td>${productName}</td>
+                        <td>SAR${productPrice}</td>
+                        <td><input type="number" name="quantity" min="1" value="1" "></td>
+                        <td class="subtotal">SAR${productPrice}</td>
+                        <td><button class="remove-button">Remove</button></td>
+                    </tr>`;
+                    productInput.value = ""; // Clear the product input after adding a row
                 }
             };
-
+    
             tableBody.addEventListener('input', (e) => {
                 const tgt = e.target;
                 if (tgt.matches("input[name=quantity]")) {
-                updateSubtotal(tgt);
-                updateGrandTotal();
+                    updateSubtotal(tgt);
+                    updateGrandTotal();
                 }
             });
-
+    
             tableBody.addEventListener('click', (e) => {
                 const tgt = e.target.closest('button.remove-button');
                 if (!tgt) return;
                 tgt.closest('tr').remove();
                 updateGrandTotal();
             });
-
+    
             productInput.addEventListener('change', (e) => {
                 console.log('adding')
                 addProductRow();
                 updateGrandTotal();
             });
-            
-            });
+    
+        });
     </script>
+    
 </body>
 </html>
