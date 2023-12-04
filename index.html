@@ -106,7 +106,7 @@
                 table.hidden = rows.length === 0;
                 if (rows.length === 0) return;
                 const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(3)).reduce((a, b) => a + b)
-                grandTotal.textContent = `SAR${total.toFixed(2)}`;
+                grandTotal.textContent = `SAR ${total.toFixed(2)}`;
             };
     
             const updateSubtotal = (input) => {
@@ -118,7 +118,7 @@
                     const quantity = parseInt(input.value);
                     const subtotalCell = row.querySelector('.subtotal');
                     const subtotal = quantity * unitPrice;
-                    subtotalCell.textContent = `SAR${subtotal}`;
+                    subtotalCell.textContent = `SAR ${subtotal}`;
                     updateGrandTotal();
                 }
             };
@@ -132,9 +132,9 @@
                     var productPrice = selectedOption.getAttribute("data-price");
                     tableBody.innerHTML += `<tr>
                         <td>${productName}</td>
-                        <td>SAR${productPrice}</td>
+                        <td>SAR ${productPrice}</td>
                         <td><input type="number" name="quantity" min="1" value="1" "></td>
-                        <td class="subtotal">SAR${productPrice}</td>
+                        <td class="subtotal">SAR ${productPrice}</td>
                         <td><button class="remove-button">Remove</button></td>
                     </tr>`;
                     productInput.value = ""; // Clear the product input after adding a row
