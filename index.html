@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .remove-button {
+            cursor: pointer;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .grand-total-row {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <title>Product Selection</title>
+</head>
+
+<body>
+    <form action="/action_page.php" method="get">
+        <label for="hotel">Hotel name:</label>
+        <input list="hotels" name="hotel" id="hotel">
+        <datalist id="hotels">
+            <option value="Hyatt">
+            <option value="Ramada">
+            <option value="Zamzam Pullman">
+            <option value="Movenpick">
+            <option value="Four Seasons">
+        </datalist>
+
+        <form>
+            <table id="productTable">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Unit Price</th>
+                  <th>Quantity</th>
+                  <th>Sub-Total</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+              <tfoot>
+                <td colspan="2"></td>
+                <td align="right"><strong>Grand Total:</strong></td>
+                <td class="subtotal" id="grandTotalValue">$0.00</td>
+              </tfoot>
+            </table>
+            <label for="product">Product name:</label>
+            <input list="products" name="product" id="product">
+            <datalist id="products">
+              <option value="Product 1" data-price="25">
+              <option value="Product 2" data-price="30">
+              <option value="Product 3" data-price="15">
+              <option value="Product 4" data-price="22">
+            </datalist>
+          
+            <input type="submit">
+          </form>
+
+          <script>
+            document.addEventListener("DOMContentLoaded", function() {
+            const table = document.getElementById("productTable")
+            table.hidden = true;
+            const tableBody = document.querySelector("#productTable tbody");
+            const productDataList = document.getElementById("products");
+            const productInput = document.getElementById("product");
+            const grandTotal = document.getElementById("grandTotalValue");
+
+            const updateGrandTotal = () => {
+                const rows = tableBody.querySelectorAll('tr');
+                table.hidden = rows.length === 0;
+                if (rows.length === 0) return;
+                const total = [...rows].map(row => +row.querySelector('.subtotal').textContent.trim().slice(1)).reduce((a, b) => a + b)
+                grandTotal.textContent = `${total.toFixed(2)}`;
+            };
+
+            const updateSubtotal = (input) => {
+            const row = input.closest('tr');
+            const productName = row.querySelector('td:first-child').textContent;
+            const selectedOption = [...productDataList.options].find(option => option.value === productName);
+            if (selectedOption) {
+                const unitPrice = +selectedOption.getAttribute("data-price");
+                const quantity = parseInt(input.value);
+                const subtotalCell = row.querySelector('.subtotal');
+                const subtotal = quantity * unitPrice;
+                subtotalCell.textContent = `$${subtotal}`;
+                updateGrandTotal();
+            }
+        };
+
+            const addProductRow = () => {
+                table.hidden = false;
+                var productName = productInput.value;
+                if (productName.trim() === "") return;
+                var selectedOption = [...productDataList.options].find(option => option.value === productName);
+                if (selectedOption) {
+                var productPrice = selectedOption.getAttribute("data-price");
+                tableBody.innerHTML += `<tr>
+                    <td>${productName}</td>
+                    <td>$${productPrice}</td>
+                    <td><input type="number" name="quantity" min="1" value="1" "></td>
+                    <td class="subtotal">$${productPrice}</td>
+                    <td><button class="remove-button">Remove</button></td>
+                </tr>`;
+                productInput.value = ""; // Clear the product input after adding a row
+                }
+            };
+
+            tableBody.addEventListener('input', (e) => {
+                const tgt = e.target;
+                if (tgt.matches("input[name=quantity]")) {
+                updateSubtotal(tgt);
+                updateGrandTotal();
+                }
+            });
+
+            tableBody.addEventListener('click', (e) => {
+                const tgt = e.target.closest('button.remove-button');
+                if (!tgt) return;
+                tgt.closest('tr').remove();
+                updateGrandTotal();
+            });
+
+            productInput.addEventListener('change', (e) => {
+                console.log('adding')
+                addProductRow();
+                updateGrandTotal();
+            });
+            
+            });
+          </script>
+</body>
+
+</html>
