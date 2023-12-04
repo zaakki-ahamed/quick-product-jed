@@ -13,8 +13,26 @@
             margin: 20px;
         }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+
         table {
-            width: 70%;
+            width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
@@ -61,39 +79,40 @@
             <option value="Four Seasons">
         </datalist>
 
-        <form>
-            <table id="productTable">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Unit Price</th>
-                  <th>Quantity</th>
-                  <th>Sub-Total</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-              <tfoot>
-                <td colspan="2"></td>
-                <td align="right"><strong>Grand Total:</strong></td>
-                <td class="subtotal" id="grandTotalValue">$0.00</td>
-              </tfoot>
-            </table>
-            <label for="product">Product name:</label>
-            <input list="products" name="product" id="product">
-            <datalist id="products">
-              <option value="Product 1" data-price="25">
-              <option value="Product 2" data-price="30">
-              <option value="Product 3" data-price="15">
-              <option value="Product 4" data-price="22">
-            </datalist>
-          
-            <input type="submit">
-          </form>
+        <label for="product">Product name:</label>
+        <input list="products" name="product" id="product">
+        <datalist id="products">
+            <option value="Product 1" data-price="25">
+            <option value="Product 2" data-price="30">
+            <option value="Product 3" data-price="15">
+            <option value="Product 4" data-price="22">
+        </datalist>
 
-          <script>
-            document.addEventListener("DOMContentLoaded", function() {
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Sub-Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr class="grand-total-row">
+                    <td colspan="2"></td>
+                    <td align="right"><strong>Grand Total:</strong></td>
+                    <td class="subtotal" id="grandTotalValue">$0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <input type="submit">
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
             const table = document.getElementById("productTable")
             table.hidden = true;
             const tableBody = document.querySelector("#productTable tbody");
@@ -163,7 +182,6 @@
             });
             
             });
-          </script>
+    </script>
 </body>
-
 </html>
